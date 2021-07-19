@@ -1,0 +1,33 @@
+services: docker
+dist: xenial
+
+env:
+  - DOCKER_IMG_NAME=manylinux2014_aarch64-hdf5 
+
+jobs:
+  include:
+    - stage: Build aarch64 HDF5 Docker image
+      os: linux
+      python: 3.7
+      virt: vm
+      group: edge
+      arch: arm64
+     #env:
+        #- HDF5_VERSION=1.12.0
+        #- HDF5_DIR=/usr/local
+        #- DOCKER_IMAGE=quay.io/pypa/manylinux2014_aarch64
+
+#install:
+#  - uname -m
+#  - docker pull $DOCKER_IMAGE
+
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker build -t manylinux2014_aarch64-hdf5 . -f Dockerfile_aarch64
+        - docker images
+        - docker tag $DOCKER_IMG_NAME $DOCKER_USERNAME/$DOCKER_IMG_NAME
+        - docker push $DOCKER_USERNAME/$DOCKER_IMG_NAME
+       #- docker run --rm -e HDF5_VERSION=$HDF5_VERSION -e HDF5_DIR=$HDF5_DIR -v `pwd`:/src quay.io/pypa/manylinux2014_aarch64:latest /bin/bash -c "/src/install_libaec.sh && /src/install_hdf5.sh"
+     
+    - stage: Test the docker image
+      script: docker pull $DOCKER_USERNAME/$DOCKER_IMG_NAME

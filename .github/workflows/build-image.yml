@@ -1,19 +1,43 @@
-name: Build Image from Dockerfile
+name: Build Image from Dockerfile 
+  #runs:
+  #using: 'docker'
+  #image: 'Dockerfile_aarch64'
 on:
   push:
-    branches: [ master ]
+    branches: [ tbbharaj/arm64-hdf5-image-2 ]
 
 jobs:
-  build:
-    name: Build image
+  build_x86_wheels:
+    name: Build image for x86
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Publish Image
+      uses: matootie/github-docker@v3.1.0
+      with:
+        accessToken: ${{ secrets.GITHUB_TOKEN }}
+        imageName: manylinux2014_x86_64-hdf5
+        containerRegistry: true
+        contextName: ./Dockerfile_x86_64
+
+  build_aarch64_wheels:
+    name: Build image for aarch64
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
 
+    - name: Publish image
+      uses: docker/setup-qemu-action@v1
+      with:
+        platforms: arm64
+
     - name: Publish Image
       uses: matootie/github-docker@v3.1.0
       with:
         accessToken: ${{ secrets.GITHUB_TOKEN }}
-        imageName: manylinux2010_x86_64-hdf5
+        imageName: manylinux2014_aarch64-hdf5
         containerRegistry: true
+        contextName: ./Dockerfile_aarch64

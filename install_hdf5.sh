@@ -1,5 +1,4 @@
 set -euo pipefail
-
 echo "Installing zlib with yum"
 yum -y install zlib-devel
 
