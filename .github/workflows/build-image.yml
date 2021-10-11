@@ -34,13 +34,13 @@ jobs:
       with:
         platforms: arm64
 
-    #- name: Publish Image
-    #  uses: matootie/github-docker@v3.1.0
-    #  with:
-    #    accessToken: ${{ secrets.GITHUB_TOKEN }}
-    #    imageName: manylinux2014_aarch64-hdf5
-    #    containerRegistry: true
-    #    contextName: ./Dockerfile_aarch64
+    - name: Publish Image
+      uses: matootie/github-docker@v3.1.0
+      with:
+        accessToken: ${{ secrets.GITHUB_TOKEN }}
+        imageName: manylinux2014_aarch64-hdf5
+        containerRegistry: true
+        contextName: ./Dockerfile_aarch64
 
     - uses: addnab/docker-run-action@v3
       with:
