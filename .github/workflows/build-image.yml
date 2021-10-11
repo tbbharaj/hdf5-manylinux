@@ -41,3 +41,11 @@ jobs:
         imageName: manylinux2014_aarch64-hdf5
         containerRegistry: true
         contextName: ./Dockerfile_aarch64
+
+    - uses: addnab/docker-run-action@v3
+      with:
+        username: tbbharaj
+        password: tanveen123
+         #registry: gcr.io
+        image: tbbharaj/test-image
+        run: echo "hello world"  
