@@ -44,9 +44,9 @@ jobs:
 
     - uses: addnab/docker-run-action@v3
       with:
-        #username: tbbharaj
-        #password: tanveen123
-        accessToken: ${{ secrets.GITHUB_TOKEN }}
+        username: tbbharaj
+        password: tanveen123
+          #accessToken: ${{ secrets.GITHUB_TOKEN }}
         registry: gcr.io
         image: manylinux2014_aarch64-hdf5
         run: echo "hello world"  
